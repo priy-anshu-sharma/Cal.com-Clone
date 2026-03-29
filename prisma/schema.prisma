@@ -1,0 +1,61 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model EventType {
+  id             String          @id @default(cuid())
+  title          String
+  description    String?
+  duration       Int
+  /** Minutes required between this event and adjacent bookings on the same day. */
+  bufferMinutes  Int             @default(0)
+  slug           String          @unique
+  questions      Json?
+  createdAt      DateTime        @default(now())
+  availability   Availability[]
+  bookings       Booking[]
+  dateOverrides  DateOverride[]
+}
+
+model Availability {
+  id          String    @id @default(cuid())
+  eventTypeId String
+  dayOfWeek   Int
+  startTime   String
+  endTime     String
+  eventType   EventType @relation(fields: [eventTypeId], references: [id], onDelete: Cascade)
+
+  @@index([eventTypeId])
+}
+
+model Booking {
+  id          String    @id @default(cuid())
+  eventTypeId String
+  name        String
+  email       String
+  date        DateTime
+  startTime   String
+  endTime     String
+  answers     Json?
+  eventType   EventType @relation(fields: [eventTypeId], references: [id], onDelete: Cascade)
+
+  @@unique([eventTypeId, date, startTime])
+}
+
+model DateOverride {
+  id            String    @id @default(cuid())
+  eventTypeId   String
+  date          DateTime
+  startTime     String?
+  endTime       String?
+  isUnavailable Boolean   @default(false)
+  eventType     EventType @relation(fields: [eventTypeId], references: [id], onDelete: Cascade)
+
+  @@unique([eventTypeId, date])
+  @@index([eventTypeId])
+}
