@@ -1,88 +1,177 @@
-# Scalar — Scheduling
+# 🚀 Scalar — Scheduling Platform
 
-**Scalar** is a production-style scheduling app inspired by **Cal.com**: share event links, let guests book time, and manage availability from a simple dashboard.
+**Scalar** is a production-ready scheduling application inspired by Cal.com.  
+It allows users to create event types, manage availability, and share booking links — enabling seamless meeting scheduling with a modern, responsive experience.
 
-## Features
+---
 
-- **Event types** — Create meetings with title, duration, public slug, and optional custom intake questions.
-- **Availability** — Weekly recurring windows; multiple ranges per weekday.
-- **Booking system** — Public `/book/[slug]` flow with date + slot picker and double-booking protection.
-- **Rescheduling** — Host can move bookings to a new slot; slots respect conflicts and buffers.
-- **Email notifications** — Optional SMTP-powered mail for confirmations, cancellations, and reschedules (non-blocking if misconfigured).
-- **Date overrides** — Block a full day or set custom hours for specific calendar dates.
-- **Buffer time** — Per event type: minimum gap (minutes) between adjacent bookings on the same day.
-- **Custom questions** — Extra fields on the booking form, stored with each booking.
-- **Timezone-aware display** — Bookings are stored with a consistent UTC-based instant; the UI shows times in the visitor’s **local timezone** (`Intl` / device settings).
-- **Past-slot protection** — Slots in the past cannot be booked; enforced in the API and disabled in the slot picker.
-- **Responsive UI** — Tailwind-based layout that works on small and large screens.
-- **PWA support** — Web app manifest and service worker registration for an installable experience.
+## 🌐 Live Demo
 
-## Tech stack
+🔗 https://cal-com-clone-beige.vercel.app/
 
-- [Next.js](https://nextjs.org/) (App Router)
-- [Prisma](https://www.prisma.io/) + [PostgreSQL](https://www.postgresql.org/)
-- [Tailwind CSS](https://tailwindcss.com/)
+---
 
-## Prerequisites
+## 📂 GitHub Repository
 
-- Node.js 20+ (recommended)
-- A PostgreSQL database connection string
+🔗 https://github.com/priy-anshu-sharma/Cal.com-Clone
 
-## Setup
+---
 
-1. **Install dependencies**
+## ✨ Features
 
-   ```bash
-   npm install
-   ```
+### 📅 Event Types
+- Create meetings with:
+  - Title, description, duration
+  - Unique public booking URL (slug)
+  - Optional custom booking questions
+- Edit and delete events easily
 
-2. **Environment**
+---
 
-   Copy `.env.example` to `.env` and set at least:
+### ⏰ Availability Management
+- Weekly recurring availability
+- Multiple time ranges per day
+- Flexible scheduling windows
 
-   - `DATABASE_URL` — PostgreSQL URL  
-   - Optional: `SMTP_HOST`, `SMTP_PORT`, `SMTP_USER`, `SMTP_PASS`, `EMAIL_FROM` for email
+---
 
-3. **Database**
+### 📆 Booking System
+- Public booking page (`/book/[slug]`)
+- Real-time slot generation
+- Prevents double booking (DB-level + API validation)
+- Booking confirmation flow
 
-   Apply migrations:
+---
 
-   ```bash
-   npx prisma migrate deploy
-   ```
+### 🔄 Rescheduling
+- Reschedule existing bookings
+- Old slot automatically freed
+- Conflict-safe slot validation
 
-   For local development you can alternatively use:
+---
 
-   ```bash
-   npx prisma migrate dev
-   ```
+### ❌ Cancellation
+- Cancel bookings from dashboard
+- Availability updates instantly
 
-4. **Run the dev server**
+---
 
-   ```bash
-   npm run dev
-   ```
+### 📊 Dashboard
+- View upcoming bookings
+- View past bookings
+- Search bookings (name/email)
+- Clean and intuitive UI
 
-   Open [http://localhost:3000](http://localhost:3000).
+---
 
-## Scripts
+### 📧 Email Notifications
+- Booking confirmation emails
+- Cancellation emails
+- Reschedule updates
+- Non-blocking implementation (app never crashes on email failure)
 
-| Command            | Description                |
-| ------------------ | -------------------------- |
-| `npm run dev`      | Start Next.js in dev mode  |
-| `npm run build`    | Production build           |
-| `npm run start`    | Start production server    |
-| `npm run db:migrate` | Prisma migrate dev       |
-| `npm run db:push`  | Push schema without migration history |
+---
 
-## Deployment
+### 🚫 Date Overrides
+- Block specific dates (holidays, unavailable days)
+- Set custom hours for specific dates
+- Overrides take priority over default schedule
 
-1. Set environment variables on your host (Vercel, Railway, Fly.io, Docker, etc.): `DATABASE_URL`, and SMTP if you want mail.
-2. Run `npx prisma migrate deploy` as part of the release process (or an equivalent migration step).
-3. Build with `npm run build` and start with `npm run start`.
+---
 
-For **Vercel**, connect the repo, add env vars, and use a managed Postgres (Neon, Supabase, etc.). Ensure the production build runs `prisma generate` (this project’s `build` script already includes it).
+### ⏱ Buffer Time
+- Configurable buffer between meetings
+- Prevents back-to-back bookings
 
-## License
+---
 
-Private / use per your organization’s policy.
+### 📝 Custom Booking Questions
+- Dynamic form fields per event
+- Stored with each booking
+
+---
+
+### 🌍 Timezone Handling
+- All data stored in UTC
+- Displayed in user's local timezone
+- Consistent time across UI and email
+
+---
+
+### 🚫 Past Slot Protection
+- Prevents booking past time slots
+- Enforced both in UI and backend
+
+---
+
+### 📱 Responsive Design
+- Fully responsive:
+  - Mobile 📱
+  - Tablet 📲
+  - Desktop 💻
+
+---
+
+### ⚡ PWA Support
+- Installable web app
+- Offline fallback
+- App-like experience
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend:** Next.js (App Router), React, Tailwind CSS  
+- **Backend:** Next.js API Routes  
+- **Database:** PostgreSQL (Neon)  
+- **ORM:** Prisma  
+- **Email:** Nodemailer (SMTP)  
+- **Deployment:** Vercel  
+
+---
+
+## ⚙️ Setup
+
+### 1. Install dependencies
+
+```bash
+npm install
+2. Configure environment
+
+Create .env:
+
+DATABASE_URL=your_database_url
+
+SMTP_HOST=smtp.gmail.com
+SMTP_PORT=587
+SMTP_SECURE=false
+SMTP_USER=your_email
+SMTP_PASS=your_app_password
+EMAIL_FROM=your_email
+
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+3. Setup database
+npx prisma migrate dev
+4. Run app
+npm run dev
+
+🚀 Deployment
+Deploy using Vercel (recommended)
+Add environment variables in dashboard
+Ensure Prisma migrations run in production
+
+🧠 Key Highlights
+Production-grade scheduling system
+Strong validation & error handling
+Clean architecture with scalable structure
+Real-world feature completeness
+Fully responsive + PWA-ready
+📌 Future Enhancements
+OAuth (Google login)
+Google Calendar integration
+Team scheduling
+Payments (Stripe)
+
+
+📧 Contact
+GitHub: https://github.com/priy-anshu-sharma
